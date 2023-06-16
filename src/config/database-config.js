@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
-const serverConfig = require("./server-config");
+const ServerConfig = require("./server-config");
 
 async function connect() {
-    await mongoose.connect(serverConfig.DBURI);
+    await mongoose.connect(ServerConfig.DBURI);
 }
 
 module.exports = {

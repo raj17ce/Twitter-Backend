@@ -1,4 +1,4 @@
 module.exports = {
-    tweetModel: require('./tweet'),
-    hashtagModel: require('./hashtag')
+    Tweet: require('./tweet'),
+    Hashtag: require('./hashtag')
 }
