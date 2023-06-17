@@ -14,6 +14,7 @@ class TweetService {
 
         let tags = content.match(/#[a-zA-Z0-9_]+/g); //extracts tags from tweet content
         tags = tags.map((tag) => tag.substring(1).toLowerCase()); //removes # and makes the tags lowercase
+        tags = [...new Set(tags)]; //removes duplicates from the array
 
         let alreadyPresentTags = await this.hashtagRepository.findByTitle(tags);
         alreadyPresentTags.forEach((tag) => {
