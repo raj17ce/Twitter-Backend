@@ -1,3 +1,3 @@
-module.exports = {
-    TweetController: require("./tweet-controller")
-}
+import TweetController from "./tweet-controller.js";
+
+export { TweetController };

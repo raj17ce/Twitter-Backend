@@ -1,8 +1,8 @@
-const dotenv = require("dotenv");
+import dotenv from "dotenv";
 
 dotenv.config();
 
-module.exports = {
-    PORT: process.env.PORT,
-    DBURI: process.env.DatabaseURI
-}
+const PORT = process.env.PORT;
+const DBURI = process.env.DatabaseURI;
+
+export default { PORT, DBURI };

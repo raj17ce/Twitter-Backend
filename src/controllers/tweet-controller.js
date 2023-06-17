@@ -1,4 +1,4 @@
-const { TweetService } = require("../services");
+import { TweetService } from "../services/index.js";
 
 let tweetService;
 
@@ -30,4 +30,4 @@ class TweetController {
     }
 }
 
-module.exports = TweetController;
+export default TweetController;

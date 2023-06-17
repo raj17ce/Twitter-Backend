@@ -1,5 +1,5 @@
-const express = require("express");
-const { TweetController } = require("../../controllers");
+import express from "express";
+import { TweetController } from "../../controllers/index.js";
 
 const tweetController = new TweetController();
 
@@ -7,4 +7,4 @@ const router = express.Router();
 
 router.post("/", tweetController.createTweet);
 
-module.exports = router;
+export default router;

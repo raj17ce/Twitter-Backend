@@ -1,6 +1,6 @@
-const express = require("express");
-const { DatabaseConfig, ServerConfig } = require("./config");
-const apiRouter = require("./routes");
+import express from "express";
+import { DatabaseConfig, ServerConfig } from "./config/index.js";
+import apiRouter from "./routes/index.js";
 
 const app = express();
 

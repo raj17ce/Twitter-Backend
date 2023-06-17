@@ -1,4 +1,4 @@
-module.exports = {
-    Tweet: require('./tweet'),
-    Hashtag: require('./hashtag')
-}
+import Tweet from "./tweet.js";
+import Hashtag from "./hashtag.js";
+
+export { Tweet, Hashtag };

@@ -1,4 +1,4 @@
-module.exports = {
-    DatabaseConfig: require('./database-config'),
-    ServerConfig: require('./server-config')
-}
+import DatabaseConfig from "./database-config.js";
+import ServerConfig from "./server-config.js";
+
+export { DatabaseConfig, ServerConfig };
