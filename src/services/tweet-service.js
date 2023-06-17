@@ -13,26 +13,29 @@ class TweetService {
         const tweet = await this.tweetRepository.create(data);
 
         let tags = content.match(/#[a-zA-Z0-9_]+/g); //extracts tags from tweet content
-        tags = tags.map((tag) => tag.substring(1).toLowerCase()); //removes # and makes the tags lowercase
-        tags = [...new Set(tags)]; //removes duplicates from the array
 
-        let alreadyPresentTags = await this.hashtagRepository.findByTitle(tags);
-        alreadyPresentTags.forEach((tag) => {
-            tag.tweets.push(tweet.id);
-            tag.save();
-        })
+        if (tags) {
+            tags = tags.map((tag) => tag.substring(1).toLowerCase()); //removes # and makes the tags lowercase
+            tags = [...new Set(tags)]; //removes duplicates from the array
 
-        alreadyPresentTags = alreadyPresentTags.map((tag) => tag.title); //makes the array title only
+            let alreadyPresentTags = await this.hashtagRepository.findByTitle(tags);
+            alreadyPresentTags.forEach((tag) => {
+                tag.tweets.push(tweet.id);
+                tag.save();
+            })
 
-        let newTags = tags.filter((tag) => !alreadyPresentTags.includes(tag));
-        newTags = newTags.map((tag) => {
-            return {
-                title: tag,
-                tweets: [tweet.id]
-            }
-        }); //coverts the array of tag strings to tag objects
+            alreadyPresentTags = alreadyPresentTags.map((tag) => tag.title); //makes the array title only
 
-        await this.hashtagRepository.bulkCreate(newTags);
+            let newTags = tags.filter((tag) => !alreadyPresentTags.includes(tag));
+            newTags = newTags.map((tag) => {
+                return {
+                    title: tag,
+                    tweets: [tweet.id]
+                }
+            }); //coverts the array of tag strings to tag objects
+
+            await this.hashtagRepository.bulkCreate(newTags);
+        }
 
         return tweet;
     }
