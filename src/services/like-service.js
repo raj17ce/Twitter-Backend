@@ -25,8 +25,6 @@ class LikeService {
             likeable: modelId
         });
 
-        console.log(exists);
-
         if (exists) {
             likeable.likes.pull(exists.id);
             await likeable.save();

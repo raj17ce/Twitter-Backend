@@ -1,8 +1,10 @@
 import express from "express";
-import tweetsRouter from "./tweet-route.js";
+import tweetRouter from "./tweet-route.js";
+import likeRouter from "./like-route.js";
 
 const router = express.Router();
 
-router.use("/tweets", tweetsRouter);
+router.use("/tweets", tweetRouter);
+router.use("/likes", likeRouter);
 
 export default router;
