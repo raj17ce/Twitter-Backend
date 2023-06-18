@@ -27,6 +27,26 @@ class TweetController {
             });
         }
     }
+
+    async getTweet(req, res) {
+        try {
+            const tweet = await tweetService.get(req.params.id);
+            return res.status(200).json({
+                success: true,
+                message: "Tweet fetched successfully",
+                data: tweet,
+                err: {}
+            });
+        }
+        catch (error) {
+            return res.status(500).json({
+                success: false,
+                message: "Something went wrong while fetching a tweet",
+                data: {},
+                err: error
+            });
+        }
+    }
 }
 
 export default TweetController;
