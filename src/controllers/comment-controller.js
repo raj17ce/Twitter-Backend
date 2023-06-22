@@ -10,7 +10,7 @@ class CommentController {
 
     async createComment(req, res) {
         try {
-            const response = await commentService.create(req.query.modelId, req.query.modelType, req.body.userId, req.body.content);
+            const response = await commentService.create(req.query.modelId, req.query.modelType, req.user.id, req.body.content);
             return res.status(201).json({
                 success: true,
                 message: "Successfully created a comment",

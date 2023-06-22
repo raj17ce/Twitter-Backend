@@ -10,7 +10,7 @@ class LikeController {
 
     async toggleLike(req, res) {
         try {
-            const response = await likeService.toggleLike(req.query.modelId, req.query.modelType, req.body.userId);
+            const response = await likeService.toggleLike(req.query.modelId, req.query.modelType, req.user.id);
             return res.status(201).json({
                 success: true,
                 message: "Successfully toggled a like",

@@ -29,9 +29,10 @@ class UserService {
         }
     }
 
-    generateJWT(reqbody) {
+    async generateJWT(reqbody) {
         try {
-            return jsonwebtoken.sign({ id: reqbody.id, email: reqbody.email }, ServerConfig.JWTSecretKey, { expiresIn: "1h" });
+            const user = await this.userRepository.findByEmail({ email: reqbody.email });
+            return jsonwebtoken.sign({ id: user.id, email: user.email }, ServerConfig.JWTSecretKey, { expiresIn: "1h" });
         }
         catch (error) {
             console.log(error);
@@ -60,7 +61,7 @@ class UserService {
                 }
             }
 
-            const token = this.generateJWT(reqbody);
+            const token = await this.generateJWT(reqbody);
             return token;
         }
         catch (error) {
