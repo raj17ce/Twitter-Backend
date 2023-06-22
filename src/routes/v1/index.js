@@ -11,5 +11,6 @@ router.use("/tweets", tweetRouter);
 router.use("/likes", likeRouter);
 router.use("/comments", commentRouter);
 router.post("/signup", authController.createUser);
+router.post("/login", authController.logIn);
 
 export default router;

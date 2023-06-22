@@ -31,6 +31,26 @@ class AuthController {
             });
         }
     }
+
+    async logIn(req, res) {
+        try {
+            const token = await userService.singIn(req.body);
+            return res.status(201).json({
+                success: true,
+                message: "Sign in successfully",
+                data: token,
+                err: {}
+            });
+        }
+        catch (error) {
+            return res.status(500).json({
+                success: false,
+                message: "Something went wrong while signing a user",
+                data: {},
+                err: error
+            });
+        }
+    }
 }
 
 export default AuthController;
