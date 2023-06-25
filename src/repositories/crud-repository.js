@@ -11,7 +11,7 @@ class CrudRepository {
         }
         catch (error) {
             console.log("Something went wrong in CRUD Repo");
-            console.log(error);
+            throw error;
         }
     }
 
@@ -22,7 +22,7 @@ class CrudRepository {
         }
         catch (error) {
             console.log("Something went wrong in CRUD Repo");
-            console.log(error);
+            throw error;
         }
     }
 
@@ -33,7 +33,7 @@ class CrudRepository {
         }
         catch (error) {
             console.log("Something went wrong in CRUD Repo");
-            console.log(error);
+            throw error;
         }
     }
 
@@ -44,7 +44,7 @@ class CrudRepository {
         }
         catch (error) {
             console.log("Something went wrong in CRUD Repo");
-            console.log(error);
+            throw error;
         }
     }
 
@@ -55,7 +55,7 @@ class CrudRepository {
         }
         catch (error) {
             console.log("Something went wrong in CRUD Repo");
-            console.log(error);
+            throw error;
         }
     }
 
@@ -66,7 +66,7 @@ class CrudRepository {
         }
         catch (error) {
             console.log("Something went wrong in CRUD Repo");
-            console.log(error);
+            throw error;
         }
     }
 }

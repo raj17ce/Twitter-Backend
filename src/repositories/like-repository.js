@@ -13,7 +13,7 @@ class LikeRepository extends CrudRepository {
             return like;
         }
         catch (error) {
-            console.log(error);
+            throw error;
         }
     }
 }

@@ -13,7 +13,7 @@ class HashtagRepository extends CrudRepository {
             return hashtags;
         }
         catch (error) {
-            console.log(error);
+            throw error;
         }
     }
 
@@ -25,7 +25,7 @@ class HashtagRepository extends CrudRepository {
             return hashtags;
         }
         catch (error) {
-            console.log(error);
+            throw error;
         }
     }
 }

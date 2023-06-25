@@ -1,4 +1,6 @@
 import { TweetService } from "../services/index.js";
+import { errorObj, successObj } from "../utils/index.js";
+import { StatusCodes } from "http-status-codes";
 
 let tweetService;
 
@@ -12,40 +14,36 @@ class TweetController {
         try {
             req.body.user = req.user.id;
             const tweet = await tweetService.create(req.body);
-            return res.status(201).json({
-                success: true,
-                message: "Tweet created successfully",
-                data: tweet,
-                err: {}
-            });
+
+            successObj.message = "Tweet created successfully";
+            successObj.data = tweet;
+
+            return res.status(StatusCodes.CREATED).json(successObj);
         }
         catch (error) {
-            return res.status(500).json({
-                success: false,
-                message: "Something went wrong while creating a tweet",
-                data: {},
-                err: error
-            });
+
+            errorObj.message = "Something went wrong while creating a tweet";
+            errorObj.err = error;
+
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(errorObj);
         }
     }
 
     async getTweet(req, res) {
         try {
             const tweet = await tweetService.get(req.params.id);
-            return res.status(200).json({
-                success: true,
-                message: "Tweet fetched successfully",
-                data: tweet,
-                err: {}
-            });
+
+            successObj.message = "Tweet fetched successfully";
+            successObj.data = tweet;
+
+            return res.status(StatusCodes.OK).json(successObj);
         }
         catch (error) {
-            return res.status(500).json({
-                success: false,
-                message: "Something went wrong while fetching a tweet",
-                data: {},
-                err: error
-            });
+
+            errorObj.message = "Something went wrong while fetching a tweet";
+            errorObj.err = error;
+
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(errorObj);
         }
     }
 }

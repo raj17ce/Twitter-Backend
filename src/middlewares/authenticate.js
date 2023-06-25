@@ -1,4 +1,6 @@
 import passport from "passport";
+import { errorObj } from "../utils/index.js"
+import { StatusCodes } from "http-status-codes";
 
 export const authenticate = async (req, res, next) => {
     passport.authenticate('jwt', (err, user) => {
@@ -8,12 +10,10 @@ export const authenticate = async (req, res, next) => {
         }
 
         if (!user) {
-            return res.status(401).json({
-                success: false,
-                message: "Unauthorized access",
-                data: {},
-                error: {}
-            });
+
+            errorObj.message = "Unauthorized access";
+
+            return res.status(StatusCodes.UNAUTHORIZED).json(errorObj);
         }
 
         req.user = user;

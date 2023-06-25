@@ -1,4 +1,6 @@
 import { UserService } from "../services/index.js";
+import { errorObj, successObj } from "../utils/index.js";
+import { StatusCodes } from "http-status-codes";
 
 let userService;
 
@@ -15,40 +17,36 @@ class AuthController {
                 email: req.body.email,
                 password: req.body.password
             });
-            return res.status(201).json({
-                success: true,
-                message: "Successfully created a new user",
-                data: response,
-                err: {}
-            });
+
+            successObj.message = "Successfully created a new user";
+            successObj.data = response;
+
+            return res.status(StatusCodes.CREATED).json(successObj);
         }
         catch (error) {
-            return res.status(500).json({
-                success: false,
-                message: "Something went wrong while creating a user",
-                data: {},
-                err: error
-            });
+
+            errorObj.message = "Something went wrong while creating a user";
+            errorObj.err = error;
+
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(errorObj);
         }
     }
 
     async logIn(req, res) {
         try {
             const token = await userService.singIn(req.body);
-            return res.status(201).json({
-                success: true,
-                message: "Sign in successfully",
-                data: token,
-                err: {}
-            });
+
+            successObj.message = "Sign in successfully";
+            successObj.data = token;
+
+            return res.status(StatusCodes.OK).json(successObj);
         }
         catch (error) {
-            return res.status(500).json({
-                success: false,
-                message: "Something went wrong while signing a user",
-                data: {},
-                err: error
-            });
+
+            errorObj.message = "Something went wrong while signing a user";
+            errorObj.err = error;
+
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(errorObj);
         }
     }
 }
