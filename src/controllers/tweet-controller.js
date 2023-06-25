@@ -46,6 +46,24 @@ class TweetController {
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(errorObj);
         }
     }
+
+    async deleteTweet(req, res) {
+        try {
+            const response = await tweetService.delete(req);
+
+            successObj.message = "Tweet deleted successfully";
+            successObj.data = response;
+
+            return res.status(StatusCodes.OK).json(successObj);
+        }
+        catch (error) {
+
+            errorObj.message = "Something went wrong while deleting a tweet";
+            errorObj.err = error;
+
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(errorObj);
+        }
+    }
 }
 
 export default TweetController;

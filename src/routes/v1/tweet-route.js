@@ -8,5 +8,6 @@ const router = express.Router();
 
 router.post("/", authenticate, tweetController.createTweet);
 router.get("/:id", tweetController.getTweet);
+router.delete("/:id", authenticate, tweetController.deleteTweet);
 
 export default router;

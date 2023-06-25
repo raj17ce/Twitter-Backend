@@ -1,4 +1,4 @@
-import { TweetRepository, HashtagRepository, UserRepository } from "../repositories/index.js";
+import { TweetRepository, HashtagRepository, UserRepository, LikeRepository, CommentRepository } from "../repositories/index.js";
 
 class TweetService {
 
@@ -6,6 +6,8 @@ class TweetService {
         this.tweetRepository = new TweetRepository();
         this.hashtagRepository = new HashtagRepository();
         this.userRepository = new UserRepository();
+        this.likeRepository = new LikeRepository();
+        this.commentRepository = new CommentRepository();
     }
 
     async create(data) {
@@ -45,12 +47,51 @@ class TweetService {
     }
 
     async get(tweetId) {
-        try {
-            const tweet = await this.tweetRepository.getWithComments(tweetId);
-            return tweet;
-        } catch (error) {
-            throw error;
+        const tweet = await this.tweetRepository.getWithComments(tweetId);
+        return tweet;
+    }
+
+    async delete(req) {
+        const tweet = await this.tweetRepository.get(req.params.id);
+        const user = await this.userRepository.get(tweet.user);
+
+        user.tweets.pull(tweet.id);
+        await user.save();
+
+        let tags = tweet.content.match(/#[a-zA-Z0-9_]+/g); //extracts tags from tweet content
+
+        if (tags) {
+            tags = tags.map((tag) => tag.substring(1).toLowerCase()); //removes # and makes the tags lowercase
+            tags = [...new Set(tags)]; //removes duplicates from the array
+
+            let presentTags = await this.hashtagRepository.findByTitle(tags);
+
+            presentTags.forEach(async (tag) => {
+                tag.tweets.pull(tweet.id);
+                if (tag.tweets.length == 0) {
+                    await tag.remove();
+                }
+                tag.save();
+            });
         }
+
+        let likes = tweet.likes;
+        console.log(likes);
+
+        likes.forEach(async (like) => {
+            await this.likeRepository.destroy(like);
+        });
+
+        let comments = tweet.comments;
+        console.log(comments);
+
+        comments.forEach(async (comment) => {
+            console.log(comment);
+            await this.commentRepository.destroy(comment);
+        });
+
+        const response = await this.tweetRepository.destroy(req.params.id);
+        return response;
     }
 }
 
