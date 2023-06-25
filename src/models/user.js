@@ -16,7 +16,13 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true
-    }
+    },
+    tweets: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Tweet"
+        }
+    ]
 }, { timestamps: true });
 
 userSchema.pre("save", function (next) {

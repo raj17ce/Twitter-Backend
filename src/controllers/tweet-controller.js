@@ -10,6 +10,7 @@ class TweetController {
 
     async createTweet(req, res) {
         try {
+            req.body.user = req.user.id;
             const tweet = await tweetService.create(req.body);
             return res.status(201).json({
                 success: true,

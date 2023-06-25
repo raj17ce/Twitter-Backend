@@ -1,16 +1,20 @@
-import { TweetRepository, HashtagRepository } from "../repositories/index.js";
+import { TweetRepository, HashtagRepository, UserRepository } from "../repositories/index.js";
 
 class TweetService {
 
     constructor() {
         this.tweetRepository = new TweetRepository();
         this.hashtagRepository = new HashtagRepository();
+        this.userRepository = new UserRepository();
     }
 
     async create(data) {
         const content = data.content;
 
         const tweet = await this.tweetRepository.create(data);
+        const user = await this.userRepository.get(tweet.user);
+        user.tweets.push(tweet.id);
+        await user.save();
 
         let tags = content.match(/#[a-zA-Z0-9_]+/g); //extracts tags from tweet content
 
