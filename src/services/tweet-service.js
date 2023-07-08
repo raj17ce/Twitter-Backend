@@ -51,12 +51,20 @@ class TweetService {
         return tweet;
     }
 
-    async delete(req) {
-        const tweet = await this.tweetRepository.get(req.params.id);
-        const user = await this.userRepository.get(tweet.user);
+    async deleteLikesOnTweet(tweetId) {
+        const tweet = await this.tweetRepository.get(tweetId);
 
-        user.tweets.pull(tweet.id);
-        await user.save();
+        let likes = tweet.likes;
+        likes.forEach(async (like) => {
+            await this.likeRepository.destroy(like);
+        });
+
+        tweet.likes = [];
+        await tweet.save();
+    }
+
+    async deleteTagsOnTweet(tweetId) {
+        const tweet = await this.tweetRepository.get(tweetId);
 
         let tags = tweet.content.match(/#[a-zA-Z0-9_]+/g); //extracts tags from tweet content
 
@@ -68,29 +76,25 @@ class TweetService {
 
             presentTags.forEach(async (tag) => {
                 tag.tweets.pull(tweet.id);
-                if (tag.tweets.length == 0) {
-                    await tag.remove();
+                await tag.save();
+                if (tag.tweets.length === 0) {
+                    await tag.deleteOne();
                 }
-                tag.save();
             });
         }
+    }
 
-        let likes = tweet.likes;
-        console.log(likes);
+    async delete(tweetId) {
+        const tweet = await this.tweetRepository.get(tweetId);
+        const user = await this.userRepository.get(tweet.user);
 
-        likes.forEach(async (like) => {
-            await this.likeRepository.destroy(like);
-        });
+        await this.deleteTagsOnTweet(tweetId);
+        await this.deleteLikesOnTweet(tweetId);
 
-        let comments = tweet.comments;
-        console.log(comments);
+        user.tweets.pull(tweet.id);
+        await user.save();
 
-        comments.forEach(async (comment) => {
-            console.log(comment);
-            await this.commentRepository.destroy(comment);
-        });
-
-        const response = await this.tweetRepository.destroy(req.params.id);
+        const response = await this.tweetRepository.destroy(tweetId);
         return response;
     }
 }

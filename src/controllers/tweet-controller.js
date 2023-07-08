@@ -49,7 +49,7 @@ class TweetController {
 
     async deleteTweet(req, res) {
         try {
-            const response = await tweetService.delete(req);
+            const response = await tweetService.delete(req.params.id);
 
             successObj.message = "Tweet deleted successfully";
             successObj.data = response;
