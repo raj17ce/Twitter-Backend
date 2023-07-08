@@ -11,12 +11,21 @@ class UserService {
 
     async signUp(data) {
         try {
-            const user = await this.userRepository.create(data);
-            return user;
+            let user = await this.userRepository.findByEmail({ email: data.email });
+            if (!user) {
+                user = await this.userRepository.create(data);
+                return user;
+            }
+            throw {
+                success: false,
+                message: "User already exists for given email",
+                data: {},
+                error: {}
+            }
         }
         catch (error) {
             console.log("Something went wrong in user service");
-            return error;
+            throw error;
         }
     }
 
@@ -24,8 +33,10 @@ class UserService {
         try {
             const user = await this.userRepository.findByEmail({ email: reqbody.email });
             return bcrypt.compareSync(reqbody.password, user.password);
-        } catch (error) {
+        }
+        catch (error) {
             console.log(error);
+            throw error;
         }
     }
 
@@ -36,6 +47,7 @@ class UserService {
         }
         catch (error) {
             console.log(error);
+            throw error;
         }
     }
 
