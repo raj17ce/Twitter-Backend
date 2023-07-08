@@ -6,5 +6,6 @@ const router = express.Router();
 const commentController = new CommentController();
 
 router.post("/", authenticate, commentController.createComment);
+router.delete("/:id", authenticate, commentController.deleteComment);
 
 export default router;
