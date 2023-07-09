@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
-import { ServerConfig } from "../config/index.js";
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -27,7 +26,8 @@ const userSchema = new mongoose.Schema({
 
 userSchema.pre("save", function (next) {
     const user = this;
-    const encryptedPassword = bcrypt.hashSync(user.password, ServerConfig.SALT);
+    const salt = bcrypt.genSaltSync(9);
+    const encryptedPassword = bcrypt.hashSync(user.password, salt);
     user.password = encryptedPassword;
     next();
 });
