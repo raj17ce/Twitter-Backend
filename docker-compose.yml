@@ -1,0 +1,22 @@
+services:
+  nodejs:
+    build: .
+    ports:
+      - ${PORT}:${PORT}  
+    environment:
+      - PORT=${PORT} 
+      - DatabaseURI=${DatabaseURI}
+      - JWTSecretKey=${JWTSecretKey}
+    depends_on:
+      - mongodb
+    command: npm run start
+
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
