@@ -17,7 +17,7 @@ class HealthService {
             };
         }
         else {
-            throw "Database Connection Error";
+            throw new Error("Database Connection Error");
         }
     }
 }

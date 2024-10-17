@@ -16,12 +16,7 @@ class UserService {
                 user = await this.userRepository.create(data);
                 return user;
             }
-            throw {
-                success: false,
-                message: "User already exists for given email",
-                data: {},
-                error: {}
-            }
+            throw new Error("User already exists for given email");
         }
         catch (error) {
             console.log("Something went wrong in user service");
@@ -56,21 +51,11 @@ class UserService {
             const user = await this.userRepository.findByEmail({ email: reqbody.email });
 
             if (!user) {
-                throw {
-                    success: false,
-                    message: "No user found",
-                    data: {},
-                    error: {}
-                }
+                throw new Error("No user found");
             }
 
             if (!await this.comparePassword(reqbody)) {
-                throw {
-                    success: false,
-                    message: "Incorrect password",
-                    data: {},
-                    error: {}
-                }
+                throw new Error("Incorrect password");
             }
 
             const token = await this.generateJWT(reqbody);
