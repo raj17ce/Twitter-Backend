@@ -18,7 +18,7 @@
     "http-status-codes": "^2.2.0",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.3.0",
-    "nodemon": "^2.0.22",
+    "nodemon": "^3.1.7",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1"
   }
