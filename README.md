@@ -29,7 +29,6 @@ Follow these steps to get the project up and running on your machine:
 
    - Duplicate `.env.example` and rename it to `.env`.
    - Update the `DatabaseURI` variable with the appropriate MongoDB URI. Make sure to append `/dbname` at the end of the URI.
-   - Note: If you want to use `docker-compose`, use the container name (in this case, **'mongodb'**) specified in **docker-compose.yml** instead of **'localhost'** (or **'127.0.0.1'**) in the MongoDB URI.
    - Update the `PORT` number to suit your requirements.
    - Set the `JWTSecretKey` to any secure string of your choice, but ensure it remains confidential and is not exposed.
 

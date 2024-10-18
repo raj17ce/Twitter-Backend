@@ -5,7 +5,7 @@ services:
       - ${PORT}:${PORT}  
     environment:
       - PORT=${PORT} 
-      - DatabaseURI=${DatabaseURI}
+      - DatabaseURI=mongodb://mongodb:27017/twitter-db
       - JWTSecretKey=${JWTSecretKey}
     depends_on:
       - mongodb
