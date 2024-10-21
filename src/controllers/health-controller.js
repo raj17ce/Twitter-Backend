@@ -21,7 +21,7 @@ class HealthController {
         }
         catch (error) {
 
-            errorObj.message = "Something is wrong with Server/Database";
+            errorObj.message = error.message;
             errorObj.err = error;
 
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(errorObj);

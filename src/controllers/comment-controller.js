@@ -21,7 +21,7 @@ class CommentController {
         }
         catch (error) {
 
-            errorObj.message = "Something went wrong while creating a comment";
+            errorObj.message = error.message;
             errorObj.err = error;
 
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(errorObj);
@@ -39,10 +39,10 @@ class CommentController {
         }
         catch (error) {
 
-            errorObj.message = "Something went wrong while deleting a comment";
+            errorObj.message = error.message;
             errorObj.err = error;
 
-            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(errorObj);
+            return res.status(StatusCodes.UNAUTHORIZED).json(errorObj);
         }
     }
 }

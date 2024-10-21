@@ -74,14 +74,18 @@ class CommentService {
             var commentable = await this.commentRepository.get(comment.commentable);
         }
 
-        await this.deleteLikesOnComment(comment.id);
-        await this.deleteCommentsOnComment(comment.id);
+        if(comment.user === commentable.user) {
+            await this.deleteLikesOnComment(comment.id);
+            await this.deleteCommentsOnComment(comment.id);
 
-        commentable.comments.pull(comment.id);
-        await commentable.save();
+            commentable.comments.pull(comment.id);
+            await commentable.save();
 
-        const response = await this.commentRepository.destroy(commentId);
-        return response;
+            const response = await this.commentRepository.destroy(commentId);
+            return response;
+        }
+
+        throw new Error("You are not authorized to delete this comment.");
     }
 }
 
