@@ -25,6 +25,10 @@ const userSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 userSchema.pre("save", function (next) {
+    if (!this.isModified('password')) {
+        next();
+        return;
+    }
     const user = this;
     const salt = bcrypt.genSaltSync(9);
     const encryptedPassword = bcrypt.hashSync(user.password, salt);

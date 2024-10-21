@@ -84,18 +84,22 @@ class TweetService {
         }
     }
 
-    async delete(tweetId) {
+    async delete(tweetId, userId) {
         const tweet = await this.tweetRepository.get(tweetId);
         const user = await this.userRepository.get(tweet.user);
+        
+        if(user.id === userId) {
+            await this.deleteTagsOnTweet(tweetId);
+            await this.deleteLikesOnTweet(tweetId);
 
-        await this.deleteTagsOnTweet(tweetId);
-        await this.deleteLikesOnTweet(tweetId);
+            user.tweets.pull(tweet.id);
+            await user.save();
 
-        user.tweets.pull(tweet.id);
-        await user.save();
+            const response = await this.tweetRepository.destroy(tweetId);
+            return response;
+        }
 
-        const response = await this.tweetRepository.destroy(tweetId);
-        return response;
+        throw new Error("You are not authorized to delete this tweet.");
     }
 }
 

@@ -20,8 +20,7 @@ class LikeController {
             return res.status(StatusCodes.OK).json(successObj);
         }
         catch (error) {
-
-            errorObj.message = "Something went wrong while toggling a like";
+            errorObj.message = error.message;
             errorObj.err = error;
 
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(errorObj);

@@ -22,7 +22,7 @@ class TweetController {
         }
         catch (error) {
 
-            errorObj.message = "Something went wrong while creating a tweet";
+            errorObj.message = error.message;
             errorObj.err = error;
 
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(errorObj);
@@ -40,7 +40,7 @@ class TweetController {
         }
         catch (error) {
 
-            errorObj.message = "Something went wrong while fetching a tweet";
+            errorObj.message = error.message;
             errorObj.err = error;
 
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(errorObj);
@@ -49,7 +49,7 @@ class TweetController {
 
     async deleteTweet(req, res) {
         try {
-            const response = await tweetService.delete(req.params.id);
+            const response = await tweetService.delete(req.params.id, req.user.id);
 
             successObj.message = "Tweet deleted successfully";
             successObj.data = response;
@@ -58,10 +58,10 @@ class TweetController {
         }
         catch (error) {
 
-            errorObj.message = "Something went wrong while deleting a tweet";
+            errorObj.message = error.message;
             errorObj.err = error;
 
-            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(errorObj);
+            return res.status(StatusCodes.UNAUTHORIZED).json(errorObj);
         }
     }
 }

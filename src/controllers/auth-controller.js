@@ -25,7 +25,7 @@ class AuthController {
         }
         catch (error) {
 
-            errorObj.message = "Something went wrong while creating a user";
+            errorObj.message = error.message;
             errorObj.err = error;
 
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(errorObj);
@@ -43,7 +43,7 @@ class AuthController {
         }
         catch (error) {
 
-            errorObj.message = "Something went wrong while signing a user";
+            errorObj.message = error.message;
             errorObj.err = error;
 
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(errorObj);
